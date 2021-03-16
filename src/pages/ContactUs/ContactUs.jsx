@@ -19,14 +19,27 @@ export const ContactUs = () => {
 
 	//setting form validations
 	const validation = () => {
+		const msgErr = {};
+
 		let isValid = true;
 
-		//setting up errors in state
-		if (handleNameChange === true) {
-			return isValid;
-		} else {
-			return (isValid = false);
+		//message
+		if (msg.trim().length < 8) {
+			msgErr.msgRequired = '* Message must be atleast 8 characters';
+
+			isValid = false;
 		}
+		if (!msg.trim()) {
+			msgErr.msgRequired = '* Message is required';
+
+			isValid = false;
+		}
+
+		//setting up errors in state
+
+		setMsgErr(msgErr);
+
+		return isValid;
 	};
 
 	const handleNameChange = e => {
@@ -108,8 +121,8 @@ export const ContactUs = () => {
 		const msgErr = {};
 
 		let isValid = true;
-		let subject = e.target.value;
-		setSubject(subject);
+		let msg = e.target.value;
+		setMsg(msg);
 		// console.log(subject);
 
 		//message
