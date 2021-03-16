@@ -1,0 +1,116 @@
+.profile-container {
+  margin: 2rem;
+}
+
+.profile-card {
+  margin: 2rem;
+  padding: 4rem 2rem;
+  background-color: #016795;
+  color: white;
+  border-radius: 8px;
+}
+
+.heads {
+  text-align: center;
+}
+
+.user-details {
+  margin: auto 8rem;
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.photos {
+  width: 22.5%;
+  border-radius: 12px;
+}
+
+.details {
+  padding: 2em 3rem;
+  width: 100%;
+}
+
+.edits > h4 {
+  font-size: 16px;
+  font-weight: 200;
+}
+
+.account {
+  margin: 4rem 0;
+  width: 100%;
+}
+
+.account > h2 {
+  text-align: center;
+}
+
+.edits {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.detail {
+  margin: 2rem 8rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.conts {
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+  margin: 1em 0;
+  align-items: center;
+}
+
+.inp {
+  width: 50%;
+  padding: 0.75em;
+  border: 2px solid black;
+  border-radius: 12px;
+  margin-left: 10px;
+}
+
+@media (max-width: 600px) {
+  .edits {
+    width: 100%;
+  }
+
+  .edits > h4 {
+    font-size: 16px;
+  }
+
+  .profile-card {
+    margin: 0px;
+    padding: 0px;
+  }
+
+  .details {
+    margin: 0rem;
+  }
+
+  .detail {
+    margin: 1rem;
+  }
+
+  .user-details {
+    margin: 2rem;
+  }
+
+  .profile-container {
+    margin: 0rem;
+  }
+
+  .conts {
+    width: 90%;
+  }
+
+  .inp {
+    width: 60%;
+    padding: 0.5em;
+  }
+}
