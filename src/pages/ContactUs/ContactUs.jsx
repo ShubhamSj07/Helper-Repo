@@ -39,15 +39,14 @@ export const ContactUs = () => {
 		//subject
 		if (!subject.trim()) {
 			subjectErr.subjectRequired = '* Subject is required';
-
 			isValid = false;
 		}
 		//msg
 		if (!msg.trim()) {
 			msgErr.msgRequired = '* Message is required';
-
 			isValid = false;
 		}
+
 		//setting up errors in state
 		setNameErr(nameErr);
 		setEmailErr(emailErr);
@@ -189,7 +188,7 @@ export const ContactUs = () => {
 						<React.Fragment>
 							<div className={style['goodbye-card']}>
 								<h1 className={style['card-heading']}>
-									Hello There!
+									Hello There !
 								</h1>
 								<div className={style['inside-card']}>
 									<p style={{ textAlign: 'center' }}>

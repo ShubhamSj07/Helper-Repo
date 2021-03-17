@@ -16,6 +16,7 @@
 
 .card-heading {
 	padding: 12px 0;
+	margin-bottom: 8px;
 	text-align: center;
 	color: var(--secondary-color);
 	text-transform: capitalize;
@@ -81,8 +82,9 @@
 	margin: 0 auto;
 }
 .inside-card p {
+	padding: 5px 0;
 	font-size: 1.3rem;
-	font-weight: 500;
+	font-weight: 520;
 }
 
 .contact-input {
@@ -185,7 +187,14 @@
 	.contact-btn {
 		height: 40px;
 	}
-
+	.card-heading {
+		font-size: 1.6rem;
+		margin-bottom: 3px;
+		padding: 7px 0;
+	}
+	.inside-card p {
+		font-size: 1.2rem;
+	}
 	.contact-btn {
 		font-size: 20px;
 	}
