@@ -11,19 +11,20 @@
 //contact-us & submission card styling
 .validation {
 	color: #ff2929;
+	margin-top: 0;
 }
+
 .card-heading {
-	font-size: 1.6rem;
-	letter-spacing: 0.7px;
-	padding: 30px 0;
+	padding: 12px 0;
 	text-align: center;
 	color: var(--secondary-color);
 	text-transform: capitalize;
 }
+
 .inside-card {
-	width: 85%;
+	width: 75%;
 	margin: 0 auto;
-	padding-bottom: 10px;
+	padding-bottom: 15px;
 }
 
 .contact-image {
@@ -51,7 +52,16 @@
 	width: 75%;
 	height: auto;
 	background-color: #e7e7e7;
-	margin: 0% auto;
+	margin: 10% auto;
+	padding-bottom: 20px;
+	border-radius: 10px;
+	box-shadow: 5px 5px 15px #888888, -5px -5px 15px #ffffff;
+}
+.goodbye-card {
+	width: 65%;
+	height: auto;
+	background-color: #e7e7e7;
+	margin: 20% auto;
 	padding-bottom: 20px;
 	border-radius: 10px;
 	box-shadow: 5px 5px 15px #888888, -5px -5px 15px #ffffff;
@@ -70,9 +80,14 @@
 	width: 85%;
 	margin: 0 auto;
 }
+.inside-card p {
+	font-size: 1.3rem;
+	font-weight: 500;
+}
 
 .contact-input {
 	position: relative;
+	margin-bottom: 9px;
 }
 
 //contact-input margin-bottom changed to 7.3px
@@ -88,7 +103,7 @@
 	margin-right: auto;
 	font-size: 14px;
 	color: #777777;
-	margin-bottom: 7.3px;
+	margin-bottom: 3px;
 	background-color: #f1f1f1;
 	box-shadow: inset 2px 2px 5px #888888, inset -2px -2px 5px #ffffff;
 }

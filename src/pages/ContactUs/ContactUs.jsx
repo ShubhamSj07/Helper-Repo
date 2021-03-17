@@ -19,29 +19,45 @@ export const ContactUs = () => {
 
 	//setting form validations
 	const validation = () => {
-		const msgErr = {};
-
 		let isValid = true;
 
-		//message
-		if (msg.trim().length < 8) {
-			msgErr.msgRequired = '* Message must be atleast 8 characters';
+		const nameErr = {};
+		const emailErr = {};
+		const subjectErr = {};
+		const msgErr = {};
+
+		//name
+		if (!name) {
+			nameErr.nameRequired = '* Name is required ';
+			isValid = false;
+		}
+		//email
+		if (!email.trim()) {
+			emailErr.emailRequired = '* Email is required';
+			isValid = false;
+		}
+		//subject
+		if (!subject.trim()) {
+			subjectErr.subjectRequired = '* Subject is required';
 
 			isValid = false;
 		}
+		//msg
 		if (!msg.trim()) {
 			msgErr.msgRequired = '* Message is required';
 
 			isValid = false;
 		}
-
 		//setting up errors in state
-
+		setNameErr(nameErr);
+		setEmailErr(emailErr);
+		setSubjectErr(subjectErr);
 		setMsgErr(msgErr);
 
 		return isValid;
 	};
 
+	//setting onChange validations
 	const handleNameChange = e => {
 		const nameErr = {};
 
@@ -81,7 +97,7 @@ export const ContactUs = () => {
 		const emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 		if (!emailRegex.test(email)) {
-			emailErr.emailRequired = '* Please Enter Valid Email';
+			emailErr.emailRequired = '* Please enter valid Email';
 			isValid = false;
 		}
 		if (!email.trim()) {
@@ -169,18 +185,24 @@ export const ContactUs = () => {
 					/>
 				</div>
 				<div className={`${style['contact-child']} ${style['child2']}`}>
-					<div className={style['contact-card']}>
-						{submited ? (
-							<React.Fragment>
+					{submited ? (
+						<React.Fragment>
+							<div className={style['goodbye-card']}>
+								<h1 className={style['card-heading']}>
+									Hello There!
+								</h1>
 								<div className={style['inside-card']}>
-									<h1 className={style['card-heading']}>
-										We have heard you!! <br /> We will soon
-										get back to you if required!
-									</h1>
+									<p style={{ textAlign: 'center' }}>
+										We have heard you! 😄 <br />
+										We will get back to you very soon if
+										required!
+									</p>
 								</div>
-							</React.Fragment>
-						) : (
-							<React.Fragment>
+							</div>
+						</React.Fragment>
+					) : (
+						<React.Fragment>
+							<div className={style['contact-card']}>
 								<h1 className={style['contact-header-text']}>
 									Get In Touch
 								</h1>
@@ -299,9 +321,9 @@ export const ContactUs = () => {
 										</div>
 									</form>
 								</div>
-							</React.Fragment>
-						)}
-					</div>
+							</div>
+						</React.Fragment>
+					)}
 				</div>
 			</div>
 		</div>

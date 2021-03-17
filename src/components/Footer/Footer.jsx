@@ -9,20 +9,12 @@ export const Footer = () => {
 	//setting email error
 	const [emailErr, setEmailErr] = useState({});
 
-	//setting up validations
 	const validation = () => {
 		const emailErr = {};
 
 		let isValid = true;
 
 		//email
-		// eslint-disable-next-line
-		const emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-		if (!emailRegex.test(email)) {
-			emailErr.emailRequired = '* Enter Valid Email';
-			isValid = false;
-		}
 		if (!email.trim()) {
 			emailErr.emailRequired = '* Email cannot be empty';
 			isValid = false;
@@ -31,6 +23,31 @@ export const Footer = () => {
 		//setting up error in state
 		setEmailErr(emailErr);
 
+		return isValid;
+	};
+	//setting up validations onChange
+	const handleEmailChange = e => {
+		const emailErr = {};
+
+		let isValid = true;
+		let email = e.target.value;
+		setEmail(email);
+		// console.log(email);
+
+		//email
+		// eslint-disable-next-line
+		const emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+		if (!emailRegex.test(email)) {
+			emailErr.emailRequired = '* Please enter valid Email';
+			isValid = false;
+		}
+		if (!email.trim()) {
+			emailErr.emailRequired = '* Email is required';
+			isValid = false;
+		}
+
+		setEmailErr(emailErr);
 		return isValid;
 	};
 
@@ -78,9 +95,10 @@ export const Footer = () => {
 						>
 							<input
 								type='text'
+								name='email'
 								className={`${style['input-field-footer']} py-2`}
 								placeholder='Email Id'
-								onChange={e => setEmail(e.target.value)}
+								onChange={handleEmailChange}
 								value={email}
 							/>
 							<br />
