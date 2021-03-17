@@ -11,18 +11,22 @@ export const Footer = () => {
 
 	const validation = () => {
 		const emailErr = {};
-
 		let isValid = true;
 
 		//email
-		if (!email.trim()) {
-			emailErr.emailRequired = '* Email cannot be empty';
+		// eslint-disable-next-line
+		const emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+		if (!emailRegex.test(email)) {
+			emailErr.emailRequired = '* Please enter valid Email';
 			isValid = false;
 		}
-
+		if (!email.trim()) {
+			emailErr.emailRequired = '* Email is required';
+			isValid = false;
+		}
 		//setting up error in state
 		setEmailErr(emailErr);
-
 		return isValid;
 	};
 	//setting up validations onChange

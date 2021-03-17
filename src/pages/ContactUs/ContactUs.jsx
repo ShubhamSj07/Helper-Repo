@@ -30,18 +30,44 @@ export const ContactUs = () => {
 		if (!name) {
 			nameErr.nameRequired = '* Name is required ';
 			isValid = false;
+		} else if (name.length < 3) {
+			nameErr.nameRequired = '* Name must be atleast 3 characters';
+			isValid = false;
 		}
+
+		if (name.match('^\\d+$')) {
+			nameErr.nameRequired = '* Name must be in characters';
+			isValid = false;
+		}
+
 		//email
+		// eslint-disable-next-line
+		const emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+		if (!emailRegex.test(email)) {
+			emailErr.emailRequired = '* Please enter valid Email';
+			isValid = false;
+		}
 		if (!email.trim()) {
 			emailErr.emailRequired = '* Email is required';
 			isValid = false;
 		}
 		//subject
+		if (subject.trim().length < 5) {
+			subjectErr.subjectRequired =
+				'* Subject must be atleast 5 characters';
+			isValid = false;
+		}
 		if (!subject.trim()) {
 			subjectErr.subjectRequired = '* Subject is required';
 			isValid = false;
 		}
 		//msg
+		if (msg.trim().length < 8) {
+			msgErr.msgRequired = '* Message must be atleast 8 characters';
+
+			isValid = false;
+		}
 		if (!msg.trim()) {
 			msgErr.msgRequired = '* Message is required';
 			isValid = false;
