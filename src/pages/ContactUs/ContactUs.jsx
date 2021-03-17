@@ -17,16 +17,10 @@ export const ContactUs = () => {
 
 	const [submited, setSubmited] = useState(false);
 
-	//setting form validations
-	const validation = () => {
+	// setting form validations
+	const nameValidation = name => {
 		let isValid = true;
-
 		const nameErr = {};
-		const emailErr = {};
-		const subjectErr = {};
-		const msgErr = {};
-
-		//name
 		if (!name) {
 			nameErr.nameRequired = '* Name is required ';
 			isValid = false;
@@ -34,15 +28,19 @@ export const ContactUs = () => {
 			nameErr.nameRequired = '* Name must be atleast 3 characters';
 			isValid = false;
 		}
-
 		if (name.match('^\\d+$')) {
 			nameErr.nameRequired = '* Name must be in characters';
 			isValid = false;
 		}
+		setNameErr(nameErr);
+		return isValid;
+	};
 
-		//email
+	const emailValidation = email => {
+		let isValid = true;
+		const emailErr = {};
 		// eslint-disable-next-line
-		const emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		const emailRegex = /^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/;
 
 		if (!emailRegex.test(email)) {
 			emailErr.emailRequired = '* Please enter valid Email';
@@ -52,7 +50,13 @@ export const ContactUs = () => {
 			emailErr.emailRequired = '* Email is required';
 			isValid = false;
 		}
-		//subject
+		setEmailErr(emailErr);
+		return isValid;
+	};
+
+	const subjectValidation = subject => {
+		let isValid = true;
+		const subjectErr = {};
 		if (subject.trim().length < 5) {
 			subjectErr.subjectRequired =
 				'* Subject must be atleast 5 characters';
@@ -62,7 +66,13 @@ export const ContactUs = () => {
 			subjectErr.subjectRequired = '* Subject is required';
 			isValid = false;
 		}
-		//msg
+		setSubjectErr(subjectErr);
+		return isValid;
+	};
+
+	const msgValidation = msg => {
+		let isValid = true;
+		const msgErr = {};
 		if (msg.trim().length < 8) {
 			msgErr.msgRequired = '* Message must be atleast 8 characters';
 
@@ -72,126 +82,64 @@ export const ContactUs = () => {
 			msgErr.msgRequired = '* Message is required';
 			isValid = false;
 		}
-
-		//setting up errors in state
-		setNameErr(nameErr);
-		setEmailErr(emailErr);
-		setSubjectErr(subjectErr);
 		setMsgErr(msgErr);
+		return isValid;
+	};
 
+	const validation = () => {
+		let isValid = true;
+		//name
+		isValid = nameValidation(name);
+		//email
+		isValid = emailValidation(email);
+		//subject
+		isValid = subjectValidation(subject);
+		//msg
+		isValid = msgValidation(msg);
 		return isValid;
 	};
 
 	//setting onChange validations
 	const handleNameChange = e => {
-		const nameErr = {};
-
 		let isValid = true;
 		let name = e.target.value;
 		setName(name);
 		// console.log(name);
-
-		//name
-		if (!name) {
-			nameErr.nameRequired = '* Name is required ';
-			isValid = false;
-		} else if (name.length < 3) {
-			nameErr.nameRequired = '* Name must be atleast 3 characters';
-			isValid = false;
-		}
-
-		if (name.match('^\\d+$')) {
-			nameErr.nameRequired = '* Name must be in characters';
-			isValid = false;
-		}
-
-		setNameErr(nameErr);
+		isValid = nameValidation(name);
 		return isValid;
 	};
 
 	const handleEmailChange = e => {
-		const emailErr = {};
-
 		let isValid = true;
 		let email = e.target.value;
 		setEmail(email);
-		// console.log(email);
-
-		//email
-		// eslint-disable-next-line
-		const emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-		if (!emailRegex.test(email)) {
-			emailErr.emailRequired = '* Please enter valid Email';
-			isValid = false;
-		}
-		if (!email.trim()) {
-			emailErr.emailRequired = '* Email is required';
-			isValid = false;
-		}
-
-		setEmailErr(emailErr);
+		isValid = emailValidation(email);
 		return isValid;
 	};
 
 	const handleSubjectChange = e => {
-		const subjectErr = {};
-
 		let isValid = true;
 		let subject = e.target.value;
 		setSubject(subject);
-		// console.log(subject);
-
-		//subject
-		if (subject.trim().length < 5) {
-			subjectErr.subjectRequired =
-				'* Subject must be atleast 5 characters';
-			isValid = false;
-		}
-		if (!subject.trim()) {
-			subjectErr.subjectRequired = '* Subject is required';
-
-			isValid = false;
-		}
-
-		setSubjectErr(subjectErr);
+		isValid = subjectValidation(subject);
 		return isValid;
 	};
 
 	const handleMsgChange = e => {
-		const msgErr = {};
-
 		let isValid = true;
 		let msg = e.target.value;
 		setMsg(msg);
-		// console.log(subject);
-
-		//message
-		if (msg.trim().length < 8) {
-			msgErr.msgRequired = '* Message must be atleast 8 characters';
-
-			isValid = false;
-		}
-		if (!msg.trim()) {
-			msgErr.msgRequired = '* Message is required';
-
-			isValid = false;
-		}
-
-		setMsgErr(msgErr);
+		isValid = msgValidation(msg);
 		return isValid;
 	};
 
 	//handling submit
 	const handleSubmit = e => {
 		e.preventDefault();
-
 		//if isValid = true, form submission trigger
 		const isValid = validation();
-
 		if (isValid) {
 			setSubmited(true);
-
 			//resetting values in state after submission of form
 			setName('');
 			setEmail('');

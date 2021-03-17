@@ -5,17 +5,14 @@ import style from './footer.module.scss';
 export const Footer = () => {
 	//email state
 	const [email, setEmail] = useState('');
-
 	//setting email error
 	const [emailErr, setEmailErr] = useState({});
 
-	const validation = () => {
-		const emailErr = {};
+	const emailValidation = email => {
 		let isValid = true;
-
-		//email
+		const emailErr = {};
 		// eslint-disable-next-line
-		const emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		const emailRegex = /^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/;
 
 		if (!emailRegex.test(email)) {
 			emailErr.emailRequired = '* Please enter valid Email';
@@ -25,33 +22,23 @@ export const Footer = () => {
 			emailErr.emailRequired = '* Email is required';
 			isValid = false;
 		}
-		//setting up error in state
 		setEmailErr(emailErr);
 		return isValid;
 	};
+
+	const validation = () => {
+		let isValid = true;
+		//email
+		isValid = emailValidation(email);
+		return isValid;
+	};
+
 	//setting up validations onChange
 	const handleEmailChange = e => {
-		const emailErr = {};
-
 		let isValid = true;
 		let email = e.target.value;
 		setEmail(email);
-		// console.log(email);
-
-		//email
-		// eslint-disable-next-line
-		const emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-		if (!emailRegex.test(email)) {
-			emailErr.emailRequired = '* Please enter valid Email';
-			isValid = false;
-		}
-		if (!email.trim()) {
-			emailErr.emailRequired = '* Email is required';
-			isValid = false;
-		}
-
-		setEmailErr(emailErr);
+		isValid = emailValidation(email);
 		return isValid;
 	};
 
