@@ -35,7 +35,6 @@ export const ContactUs = () => {
 		setNameErr(nameErr);
 		return isValid;
 	};
-
 	const emailValidation = email => {
 		let isValid = true;
 		const emailErr = {};
@@ -53,7 +52,6 @@ export const ContactUs = () => {
 		setEmailErr(emailErr);
 		return isValid;
 	};
-
 	const subjectValidation = subject => {
 		let isValid = true;
 		const subjectErr = {};
@@ -69,13 +67,11 @@ export const ContactUs = () => {
 		setSubjectErr(subjectErr);
 		return isValid;
 	};
-
 	const msgValidation = msg => {
 		let isValid = true;
 		const msgErr = {};
 		if (msg.trim().length < 8) {
 			msgErr.msgRequired = '* Message must be atleast 8 characters';
-
 			isValid = false;
 		}
 		if (!msg.trim()) {
@@ -85,30 +81,32 @@ export const ContactUs = () => {
 		setMsgErr(msgErr);
 		return isValid;
 	};
-
 	const validation = () => {
 		let isValid = true;
+		let isNameValid = true;
+		let isEmailValid = true;
+		let isSubjectValid = true;
+		let isMsgValid = true;
 		//name
-		isValid = nameValidation(name);
+		isNameValid = nameValidation(name);
 		//email
-		isValid = emailValidation(email);
+		isEmailValid = emailValidation(email);
 		//subject
-		isValid = subjectValidation(subject);
+		isSubjectValid = subjectValidation(subject);
 		//msg
-		isValid = msgValidation(msg);
-		return isValid;
+		isMsgValid = msgValidation(msg);
+		//for checking if all fields have been validated or not
+		if (isNameValid && isEmailValid && isSubjectValid && isMsgValid)
+			return isValid;
 	};
-
 	//setting onChange validations
 	const handleNameChange = e => {
 		let isValid = true;
 		let name = e.target.value;
 		setName(name);
-		// console.log(name);
 		isValid = nameValidation(name);
 		return isValid;
 	};
-
 	const handleEmailChange = e => {
 		let isValid = true;
 		let email = e.target.value;
@@ -116,7 +114,6 @@ export const ContactUs = () => {
 		isValid = emailValidation(email);
 		return isValid;
 	};
-
 	const handleSubjectChange = e => {
 		let isValid = true;
 		let subject = e.target.value;
@@ -124,7 +121,6 @@ export const ContactUs = () => {
 		isValid = subjectValidation(subject);
 		return isValid;
 	};
-
 	const handleMsgChange = e => {
 		let isValid = true;
 		let msg = e.target.value;
@@ -132,12 +128,12 @@ export const ContactUs = () => {
 		isValid = msgValidation(msg);
 		return isValid;
 	};
-
 	//handling submit
 	const handleSubmit = e => {
 		e.preventDefault();
 		//if isValid = true, form submission trigger
 		const isValid = validation();
+		console.log(isValid);
 		if (isValid) {
 			setSubmited(true);
 			//resetting values in state after submission of form

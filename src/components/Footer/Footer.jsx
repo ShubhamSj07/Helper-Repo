@@ -25,14 +25,12 @@ export const Footer = () => {
 		setEmailErr(emailErr);
 		return isValid;
 	};
-
 	const validation = () => {
 		let isValid = true;
 		//email
 		isValid = emailValidation(email);
 		return isValid;
 	};
-
 	//setting up validations onChange
 	const handleEmailChange = e => {
 		let isValid = true;
@@ -41,22 +39,17 @@ export const Footer = () => {
 		isValid = emailValidation(email);
 		return isValid;
 	};
-
 	//handling submit
 	const handleSubmit = e => {
 		e.preventDefault();
-
 		//if isValid = true, form submission trigger
 		const isValid = validation();
-
 		if (isValid) {
 			console.log('Succesfully subcribed for our newsletter!');
-
 			//resetting email value in state after submission of form
 			setEmail('');
 		}
 	};
-
 	return (
 		<React.Fragment>
 			<footer className={style['footer']}>
