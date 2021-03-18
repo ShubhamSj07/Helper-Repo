@@ -100,33 +100,33 @@ export const ContactUs = () => {
 			return isValid;
 	};
 	//setting onChange validations
-	const handleNameChange = e => {
+	const handleChange = name => e => {
 		let isValid = true;
-		let name = e.target.value;
-		setName(name);
-		isValid = nameValidation(name);
-		return isValid;
-	};
-	const handleEmailChange = e => {
-		let isValid = true;
-		let email = e.target.value;
-		setEmail(email);
-		isValid = emailValidation(email);
-		return isValid;
-	};
-	const handleSubjectChange = e => {
-		let isValid = true;
-		let subject = e.target.value;
-		setSubject(subject);
-		isValid = subjectValidation(subject);
-		return isValid;
-	};
-	const handleMsgChange = e => {
-		let isValid = true;
-		let msg = e.target.value;
-		setMsg(msg);
-		isValid = msgValidation(msg);
-		return isValid;
+
+		switch (name) {
+			case 'name':
+				let name = e.target.value;
+				setName(name);
+				isValid = nameValidation(name);
+				return isValid;
+			case 'email':
+				let email = e.target.value;
+				setEmail(email);
+				isValid = emailValidation(email);
+				return isValid;
+			case 'subject':
+				let subject = e.target.value;
+				setSubject(subject);
+				isValid = subjectValidation(subject);
+				return isValid;
+			case 'message':
+				let msg = e.target.value;
+				setMsg(msg);
+				isValid = msgValidation(msg);
+				return isValid;
+			default:
+				return isValid;
+		}
 	};
 	//handling submit
 	const handleSubmit = e => {
@@ -181,12 +181,11 @@ export const ContactUs = () => {
 											<input
 												autoFocus='on'
 												autoComplete='off'
-												name='name'
 												id='txt_name'
 												type='text'
 												placeholder='Your Name'
 												value={name}
-												onChange={handleNameChange}
+												onChange={handleChange('name')}
 											/>
 											<i className='fas fa-user'></i>
 											{Object.keys(nameErr).map(key => {
@@ -206,11 +205,10 @@ export const ContactUs = () => {
 											<input
 												autoComplete='off'
 												id='txt_email'
-												name='email'
 												type='text'
 												placeholder='Your Email'
 												value={email}
-												onChange={handleEmailChange}
+												onChange={handleChange('email')}
 											/>
 											<i className='fas fa-envelope-open-text'></i>
 											{Object.keys(emailErr).map(key => {
@@ -230,11 +228,12 @@ export const ContactUs = () => {
 											<input
 												autoComplete='off'
 												id='txt_subject'
-												name='subject'
 												type='text'
 												placeholder='Your Subject'
 												value={subject}
-												onChange={handleSubjectChange}
+												onChange={handleChange(
+													'subject'
+												)}
 											/>
 											<i className='fas fa-pencil-alt'></i>
 											{Object.keys(subjectErr).map(
@@ -257,13 +256,14 @@ export const ContactUs = () => {
 										<div className={style['contact-input']}>
 											<textarea
 												autoComplete='off'
-												name='message'
 												id='txt_message'
 												rows='4'
 												cols='20'
 												placeholder='Your Message'
 												value={msg}
-												onChange={handleMsgChange}
+												onChange={handleChange(
+													'message'
+												)}
 											></textarea>
 											<i className='fas fa-comment-dots'></i>
 											{Object.keys(msgErr).map(key => {
