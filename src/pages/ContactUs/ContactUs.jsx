@@ -1,147 +1,107 @@
 import React, { useState } from 'react';
 import { Button2 } from '../../components/util/Button/index';
 import style from './ContactUs.module.scss';
+import Joi from 'joi-browser';
 
 export const ContactUs = () => {
-	//setting form values
-	const [name, setName] = useState('');
-	const [email, setEmail] = useState('');
-	const [subject, setSubject] = useState('');
-	const [msg, setMsg] = useState('');
+	const [formdata, setFormData] = useState({
+		name: '',
+		subject: '',
+		message: '',
+	});
 
-	//setting custom form error messages
-	const [nameErr, setNameErr] = useState({});
-	const [emailErr, setEmailErr] = useState({});
-	const [subjectErr, setSubjectErr] = useState({});
-	const [msgErr, setMsgErr] = useState({});
-
+	const [formerrors, setFormErrors] = useState({});
 	const [submited, setSubmited] = useState(false);
-
-	// setting form validations
-	const nameValidation = name => {
-		let isValid = true;
-		const nameErr = {};
-		if (!name) {
-			nameErr.nameRequired = '* Name is required ';
-			isValid = false;
-		} else if (name.length < 3) {
-			nameErr.nameRequired = '* Name must be atleast 3 characters';
-			isValid = false;
-		}
-		if (name.match('^\\d+$')) {
-			nameErr.nameRequired = '* Name must be in characters';
-			isValid = false;
-		}
-		setNameErr(nameErr);
-		return isValid;
-	};
+	//email
+	const [email, setEmail] = useState('');
+	const [emailErr, setEmailErr] = useState({});
+	//email-validations
 	const emailValidation = email => {
 		let isValid = true;
 		const emailErr = {};
 		// eslint-disable-next-line
 		const emailRegex = /^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/;
-
 		if (!emailRegex.test(email)) {
 			emailErr.emailRequired = '* Please enter valid Email';
 			isValid = false;
 		}
 		if (!email.trim()) {
-			emailErr.emailRequired = '* Email is required';
+			emailErr.emailRequired = '* email is required';
 			isValid = false;
 		}
 		setEmailErr(emailErr);
 		return isValid;
 	};
-	const subjectValidation = subject => {
-		let isValid = true;
-		const subjectErr = {};
-		if (subject.trim().length < 5) {
-			subjectErr.subjectRequired =
-				'* Subject must be atleast 5 characters';
-			isValid = false;
-		}
-		if (!subject.trim()) {
-			subjectErr.subjectRequired = '* Subject is required';
-			isValid = false;
-		}
-		setSubjectErr(subjectErr);
-		return isValid;
-	};
-	const msgValidation = msg => {
-		let isValid = true;
-		const msgErr = {};
-		if (msg.trim().length < 8) {
-			msgErr.msgRequired = '* Message must be atleast 8 characters';
-			isValid = false;
-		}
-		if (!msg.trim()) {
-			msgErr.msgRequired = '* Message is required';
-			isValid = false;
-		}
-		setMsgErr(msgErr);
-		return isValid;
-	};
 	const validation = () => {
 		let isValid = true;
-		let isNameValid = true;
 		let isEmailValid = true;
-		let isSubjectValid = true;
-		let isMsgValid = true;
-		//name
-		isNameValid = nameValidation(name);
-		//email
 		isEmailValid = emailValidation(email);
-		//subject
-		isSubjectValid = subjectValidation(subject);
-		//msg
-		isMsgValid = msgValidation(msg);
-		//for checking if all fields have been validated or not
-		if (isNameValid && isEmailValid && isSubjectValid && isMsgValid)
-			return isValid;
+		//for checking if email have been validated or not
+		if (isEmailValid) return isValid;
 	};
-	//setting onChange validations
-	const handleChange = name => e => {
+	const handleEmailChange = name => e => {
 		let isValid = true;
-
 		switch (name) {
-			case 'name':
-				let name = e.target.value;
-				setName(name);
-				isValid = nameValidation(name);
-				return isValid;
 			case 'email':
 				let email = e.target.value;
 				setEmail(email);
 				isValid = emailValidation(email);
 				return isValid;
-			case 'subject':
-				let subject = e.target.value;
-				setSubject(subject);
-				isValid = subjectValidation(subject);
-				return isValid;
-			case 'message':
-				let msg = e.target.value;
-				setMsg(msg);
-				isValid = msgValidation(msg);
-				return isValid;
 			default:
 				return isValid;
 		}
 	};
-	//handling submit
+	const schema = {
+		name: Joi.string().trim().required().min(3).label('Name'),
+		subject: Joi.string().trim().required().min(5).label('Subject'),
+		message: Joi.string().trim().required().min(8).label('Message'),
+	};
+	const validate = () => {
+		const result = Joi.validate(formdata, schema, { abortEarly: false });
+		if (!result.error) return null;
+		const errors = {};
+		for (let item of result.error.details) {
+			errors[item.path[0]] = item.message;
+		}
+		return errors;
+	};
+	const validateProperty = input => {
+		const { name, value } = input;
+		const obj = { [name]: value };
+		const obj_schema = { [name]: schema[name] };
+		const result = Joi.validate(obj, obj_schema);
+		return result.error ? result.error.details[0].message : null;
+	};
 	const handleSubmit = e => {
 		e.preventDefault();
-		//if isValid = true, form submission trigger
+		const errors = validate();
+		Object.keys(formdata).map(key => {
+			if (formdata[key] === '' || formdata[key] === null) {
+				errors[key] = `${key} is required`;
+			}
+		});
 		const isValid = validation();
-		console.log(isValid);
-		if (isValid) {
-			setSubmited(true);
-			//resetting values in state after submission of form
-			setName('');
-			setEmail('');
-			setSubject('');
-			setMsg('');
+		if (errors !== 0) {
+			setFormErrors(errors);
 		}
+		if (errors && isValid !== false) {
+			setSubmited(false);
+		} else if (isValid) {
+			setSubmited(true);
+			setFormData('');
+		}
+	};
+	const handleChange = e => {
+		const { currentTarget: input } = e;
+		const errors = { ...formerrors };
+		const errorMessage = validateProperty(input);
+		if (errorMessage) errors[input.name] = errorMessage;
+		else delete errors[input.name];
+
+		const data = { ...formdata };
+		data[input.name] = input.value;
+		setFormData({ ...data, [input.name]: input.value });
+		setFormErrors(errors);
 	};
 	return (
 		<div className={style['contact-section']}>
@@ -181,25 +141,22 @@ export const ContactUs = () => {
 											<input
 												autoFocus='on'
 												autoComplete='off'
+												name='name'
 												id='txt_name'
 												type='text'
 												placeholder='Your Name'
-												value={name}
-												onChange={handleChange('name')}
+												onChange={handleChange}
 											/>
 											<i className='fas fa-user'></i>
-											{Object.keys(nameErr).map(key => {
-												return (
-													<div
-														className={
-															style['validation']
-														}
-														key={key}
-													>
-														{nameErr[key]}
-													</div>
-												);
-											})}
+											{formerrors['name'] && (
+												<div
+													className={
+														style['validation']
+													}
+												>
+													* {formerrors['name']}
+												</div>
+											)}
 										</div>
 										<div className={style['contact-input']}>
 											<input
@@ -208,7 +165,9 @@ export const ContactUs = () => {
 												type='text'
 												placeholder='Your Email'
 												value={email}
-												onChange={handleChange('email')}
+												onChange={handleEmailChange(
+													'email'
+												)}
 											/>
 											<i className='fas fa-envelope-open-text'></i>
 											{Object.keys(emailErr).map(key => {
@@ -227,57 +186,43 @@ export const ContactUs = () => {
 										<div className={style['contact-input']}>
 											<input
 												autoComplete='off'
+												name='subject'
 												id='txt_subject'
 												type='text'
 												placeholder='Your Subject'
-												value={subject}
-												onChange={handleChange(
-													'subject'
-												)}
+												onChange={handleChange}
 											/>
 											<i className='fas fa-pencil-alt'></i>
-											{Object.keys(subjectErr).map(
-												key => {
-													return (
-														<div
-															className={
-																style[
-																	'validation'
-																]
-															}
-															key={key}
-														>
-															{subjectErr[key]}
-														</div>
-													);
-												}
+											{formerrors['subject'] && (
+												<div
+													className={
+														style['validation']
+													}
+												>
+													* {formerrors['subject']}
+												</div>
 											)}
 										</div>
 										<div className={style['contact-input']}>
 											<textarea
 												autoComplete='off'
+												name='message'
 												id='txt_message'
 												rows='4'
 												cols='20'
 												placeholder='Your Message'
-												value={msg}
-												onChange={handleChange(
-													'message'
-												)}
+												onChange={handleChange}
 											></textarea>
 											<i className='fas fa-comment-dots'></i>
-											{Object.keys(msgErr).map(key => {
-												return (
-													<div
-														className={
-															style['validation']
-														}
-														key={key}
-													>
-														{msgErr[key]}
-													</div>
-												);
-											})}
+											{formerrors['message'] && (
+												<div
+													className={
+														style['validation']
+													}
+												>
+													* {formerrors['message']}
+												</div>
+											)}
 										</div>
 										<div className={style['submit-btn']}>
 											<Button2

@@ -11,7 +11,10 @@
 //contact-us & submission card styling
 .validation {
 	color: #ff2929;
-	margin-top: 0;
+	display: flex;
+	justify-content: start;
+	margin-top: -1%;
+	margin-bottom: 13px;
 }
 
 .card-heading {
@@ -89,7 +92,7 @@
 
 .contact-input {
 	position: relative;
-	margin-bottom: 9px;
+	margin-bottom: 8px;
 }
 
 //contact-input margin-bottom changed to 7.3px
@@ -105,7 +108,7 @@
 	margin-right: auto;
 	font-size: 14px;
 	color: #777777;
-	margin-bottom: 3px;
+	margin-bottom: 7px;
 	background-color: #f1f1f1;
 	box-shadow: inset 2px 2px 5px #888888, inset -2px -2px 5px #ffffff;
 }
